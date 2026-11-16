@@ -1,0 +1,4 @@
+# Ignore raw temporary image (keep processed transparent hero-cyborg.png)
+assets/hero-cyborg-raw.jpg
+.DS_Store
+Thumbs.db

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CYBER OF X — Enter The Next Dimension</title>
+  <!-- Google Fonts for Cyberpunk Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Custom Cybernetic Cursor -->
+  <div id="cyber-cursor" class="cyber-cursor">
+    <div class="cursor-ring"></div>
+    <div class="cursor-dot"></div>
+    <span class="cursor-coords" id="cursor-coords">X:000 Y:000</span>
+  </div>
+
+  <!-- Three.js 3D Background & Warp Canvas -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Subtle Scanline & Vignette Overlays -->
+  <div class="crt-overlay"></div>
+  <div class="vignette-overlay"></div>
+
+  <!-- Main Application Shell -->
+  <div class="app-shell" id="app-shell">
+    
+    <!-- LEFT VERTICAL SIDEBAR -->
+    <aside class="left-sidebar">
+      <button class="sidebar-grid-btn" id="overdrive-btn" title="Toggle Cyber Overdrive (Space)">
+        <span></span><span></span><span></span><span></span>
+      </button>
+
+      <button class="sidebar-x-badge discord-trigger" data-source="sidebar-badge" title="Neural Discord Link">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="follow-us-wrap">
+        <span class="follow-text">FOLLOW US</span>
+      </div>
+
+      <nav class="social-nav">
+        <a href="#twitter" class="social-link" data-sfx="hover" title="X / Twitter">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+
+        <a href="https://discord.com/invite/cyberofx" class="social-link discord-highlight discord-trigger" data-source="sidebar-discord" title="Join Our Discord">
+          <span class="ping-dot"></span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+          </svg>
+        </a>
+
+        <a href="#instagram" class="social-link" data-sfx="hover" title="Instagram">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </a>
+
+        <a href="#youtube" class="social-link" data-sfx="hover" title="YouTube">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+        </a>
+      </nav>
+
+      <div class="scroll-indicator">
+        <span>SCROLL<br>DOWN</span>
+        <div class="scroll-line">
+          <div class="scroll-dot"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-stage">
+      
+      <!-- TOP NAVIGATION BAR -->
+      <header class="top-navbar">
+        <a href="#" class="brand-logo" id="brand-logo">
+          <div class="x-emblem">
+            <svg viewBox="0 0 36 36" width="32" height="32">
+              <defs>
+                <linearGradient id="xGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ff1f5a" />
+                  <stop offset="100%" stop-color="#ff00aa" />
+                </linearGradient>
+              </defs>
+              <path d="M6 6 L14 6 L18 12 L22 6 L30 6 L22 18 L30 30 L22 30 L18 24 L14 30 L6 30 L14 18 Z" fill="none" stroke="url(#xGrad)" stroke-width="2.5" />
+              <path d="M10 10 L26 26 M26 10 L10 26" stroke="#ff2a6d" stroke-width="1.2" opacity="0.6"/>
+            </svg>
+          </div>
+          <span class="brand-name">CYBER OF X</span>
+        </a>
+
+        <nav class="center-nav">
+          <a href="#home" class="nav-item active" data-section="01">HOME</a>
+          <span class="nav-dot">·</span>
+          <a href="#about" class="nav-item" data-section="02">ABOUT</a>
+          <span class="nav-dot">·</span>
+          <a href="#games" class="nav-item" data-section="03">GAMES</a>
+          <span class="nav-dot">·</span>
+          <a href="#marketplace" class="nav-item" data-section="04">MARKETPLACE</a>
+          <span class="nav-dot">·</span>
+          <a href="#community" class="nav-item discord-trigger" data-source="nav-community">COMMUNITY</a>
+          <span class="nav-dot">·</span>
+          <a href="#support" class="nav-item" data-section="05">SUPPORT</a>
+        </nav>
+
+        <div class="nav-actions">
+          <!-- 3D Render Mode Switcher + SFX Toggle -->
+          <button class="hud-chip-btn" id="mode-switch-btn" title="Switch 3D Render Mode">
+            <span class="chip-led"></span>
+            <span id="mode-label">3D: HYBRID</span>
+          </button>
+
+          <button class="hud-chip-btn" id="sfx-toggle-btn" title="Toggle Cyber Synth Audio">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" id="sfx-wave"></path>
+            </svg>
+          </button>
+
+          <div class="search-pill">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+
+          <a href="https://discord.com/invite/cyberofx" class="join-us-btn discord-trigger" data-source="navbar-join">
+            <span>JOIN US</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </header>
+
+      <!-- HERO SECTION -->
+      <main class="hero-stage" id="hero-stage">
+        
+        <!-- Top Meta Row -->
+        <div class="hero-top-meta">
+          <div class="meta-left">
+            <span class="glitch-sub" data-text="ENTER THE NEXT DIMENSION">ENTER THE NEXT DIMENSION</span>
+          </div>
+          <div class="meta-right">
+            <div class="meta-slogan">
+              <span>WHERE IMAGINATION</span>
+              <span>MEETS REALITY</span>
+            </div>
+            <div class="meta-pagination">
+              <span class="page-num" id="active-page-num">01</span>
+              <div class="page-bars">
+                <span class="bar active"></span>
+                <span class="bar"></span>
+                <span class="page-max">05</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GIANT BACKGROUND "METAVERSE" TITLE (Behind 3D Character) -->
+        <div class="giant-title-layer" id="giant-title-layer">
+          <h1 class="metaverse-title" data-text="METAVERSE">
+            <span class="title-left">META</span><span class="title-mid">V</span><span class="title-right">ERSE</span>
+          </h1>
+        </div>
+
+        <!-- CENTRAL 3D CHARACTER & HOLOGRAPHIC RIG (In Front of Title) -->
+        <div class="center-character-stage" id="character-stage">
+          <div class="character-3d-card" id="character-3d-card">
+            <!-- Ambient Neon Backlight Behind Character -->
+            <div class="character-aura"></div>
+            <div class="character-holo-ring"></div>
+
+            <!-- High-Res Generated Cyborg Hero Image with 3D Depth Layers -->
+            <div class="character-img-wrapper">
+              <img src="assets/hero-cyborg.png" alt="Cyber Of X Avatar" class="hero-cyborg-img" id="hero-cyborg-img" />
+              <!-- Interactive Visor HUD Overlay -->
+              <div class="visor-hud-glow"></div>
+              <div class="ears-neon-glow"></div>
+            </div>
+
+            <!-- Floating 3D Telemetry Tag next to Visor -->
+            <div class="floating-hud-tag tag-left">
+              <span class="tag-dot"></span>
+              <span class="tag-code">UNIT // X-09 NEURAL</span>
+            </div>
+            <div class="floating-hud-tag tag-right">
+              <span class="tag-code">SYNC: 99.8%</span>
+              <span class="tag-bar"><i style="width:92%"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEFT & RIGHT INFORMATION COLUMNS -->
+        <div class="hero-mid-grid">
+          <!-- Left Info Block -->
+          <div class="info-column info-left" id="info-left">
+            <h2 class="column-title">CYBER OF X</h2>
+            <p class="column-desc">
+              Step into a hyper-immersive neural metaverse rendered in real-time 3D. Forge your cybernetic identity, command next-gen syndicates, and link directly with our global Discord command nexus.
+            </p>
+            <div class="cta-row">
+              <button class="cyber-btn explore-btn" id="explore-btn">
+                <span>EXPLORE NOW</span>
+                <i class="btn-corner"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Spacer for Central Character -->
+          <div class="center-spacer"></div>
+
+          <!-- Right Info Block -->
+          <div class="info-column info-right" id="info-right">
+            <h2 class="column-title">THE FUTURE</h2>
+            <p class="column-desc">
+              Powered by reactive WebGL shaders, spatial audio synthesis, and zero-latency community raids. Experience seamless 3D dimensional shifts every time you jump into the network.
+            </p>
+            <div class="cta-row">
+              <button class="cyber-btn trailer-btn" id="watch-trailer-btn">
+                <span class="play-icon">▶</span>
+                <span>WATCH TRAILER</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM GLASSMORPHIC STATS HUD BAR -->
+        <section class="bottom-hud-bar" id="bottom-hud-bar">
+          <div class="hud-corner hud-tl"></div>
+          <div class="hud-corner hud-tr"></div>
+          <div class="hud-corner hud-bl"></div>
+          <div class="hud-corner hud-br"></div>
+
+          <!-- Stat 1: Radar + Active Users -->
+          <div class="hud-stat-group">
+            <div class="radar-sphere">
+              <div class="radar-grid"></div>
+              <div class="radar-sweep"></div>
+              <div class="radar-blip b1"></div>
+              <div class="radar-blip b2"></div>
+            </div>
+            <div class="stat-content">
+              <div class="stat-header">
+                <span class="stat-label">ACTIVE<br>USERS</span>
+                <div class="stat-number-wrap">
+                  <span class="stat-number" data-target="15">+15</span>
+                  <span class="stat-unit">MILLION</span>
+                </div>
+              </div>
+              <p class="stat-subtext">
+                Neural-linked players exploring interconnected 3D worlds and cyber districts daily.
+              </p>
+            </div>
+          </div>
+
+          <!-- Stat 2: Games Online -->
+          <div class="hud-stat-group">
+            <div class="stat-content">
+              <div class="stat-header">
+                <span class="stat-label">GAMES<br>ONLINE</span>
+                <div class="stat-number-wrap">
+                  <span class="stat-number" data-target="25">+25</span>
+                  <span class="stat-unit">THOUSAND</span>
+                </div>
+              </div>
+              <p class="stat-subtext">
+                High-octane arenas, custom shader realms, and syndicate raid servers active now.
+              </p>
+            </div>
+          </div>
+
+          <!-- Stat 3: Global Community + Avatars -->
+          <div class="hud-stat-group community-group">
+            <div class="community-orb discord-trigger" data-source="bottom-orb" title="Connect to Discord Community">
+              <div class="orb-ring"></div>
+              <div class="avatar-cluster">
+                <span class="av av-1">X1</span>
+                <span class="av av-2">V9</span>
+                <span class="av av-3">K7</span>
+                <span class="av av-4">99+</span>
+              </div>
+            </div>
+            <div class="stat-content">
+              <div class="stat-header">
+                <span class="stat-label-wide">GLOBAL<br>COMMUNITY</span>
+              </div>
+              <p class="stat-subtext">
+                Join our official Discord headquarters for live drops, voice squads & 3D events.
+              </p>
+            </div>
+          </div>
+
+          <!-- Right Circular Portal Trigger Button -->
+          <div class="hud-action-end">
+            <a href="https://discord.com/invite/cyberofx" class="portal-circle-btn discord-trigger" data-source="bottom-arrow" title="Enter Discord Wormhole">
+              <div class="circle-outer-ring"></div>
+              <div class="circle-inner">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SPECIAL DISCORD 3D WORMHOLE & HOLOGRAPHIC PORTAL OVERLAY
+       ===================================================================== -->
+  <div class="discord-portal-modal" id="discord-portal-modal" aria-hidden="true">
+    <div class="portal-backdrop" id="portal-backdrop"></div>
+
+    <!-- Warp Tunnel Telemetry HUD -->
+    <div class="warp-telemetry" id="warp-telemetry">
+      <div class="warp-status-line">
+        <span class="pulse-square"></span>
+        <span id="warp-status-text">INITIALIZING QUANTUM WORMHOLE TO DISCORD NEXUS...</span>
+      </div>
+      <div class="warp-speed-meter">
+        <span>VELOCITY: <strong id="warp-speed-val">12.4</strong> LIGHT-sec</span>
+        <span>CHANNEL: <strong>#CYBER-OF-X-HQ</strong></span>
+      </div>
+    </div>
+
+    <!-- 3D Tilting Holographic Discord Gate Card -->
+    <div class="discord-holo-card" id="discord-holo-card">
+      <div class="holo-scanline"></div>
+      <button class="holo-close-btn" id="holo-close-btn" title="Return to Metaverse (ESC)">✕</button>
+
+      <div class="holo-header">
+        <div class="holo-discord-emblem">
+          <div class="emblem-pulse"></div>
+          <svg viewBox="0 0 24 24" width="38" height="38" fill="currentColor">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+          </svg>
+        </div>
+        <div class="holo-title-block">
+          <span class="holo-badge">VERIFIED METAVERSE CITADEL</span>
+          <h3 class="holo-server-name">CYBER OF X // OFFICIAL DISCORD</h3>
+        </div>
+      </div>
+
+      <!-- Live Telemetry Metrics -->
+      <div class="holo-metrics">
+        <div class="metric-box">
+          <span class="metric-dot online"></span>
+          <div>
+            <strong id="discord-online-count">14,892</strong>
+            <small>OPERATIVES ONLINE</small>
+          </div>
+        </div>
+        <div class="metric-box">
+          <span class="metric-dot members"></span>
+          <div>
+            <strong>128,450</strong>
+            <small>TOTAL CITIZENS</small>
+          </div>
+        </div>
+        <div class="metric-box">
+          <span class="metric-dot voice"></span>
+          <div>
+            <strong>42 SQUADS</strong>
+            <small>ACTIVE IN VOICE</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Interactive Addition: Operative Callsign & Pass Generator -->
+      <div class="holo-pass-generator">
+        <div class="pass-top">
+          <span>YOUR NEURAL ACCESS PASS</span>
+          <button class="reroll-btn" id="reroll-callsign-btn" type="button">↻ REROLL IDENTITY</button>
+        </div>
+        <div class="pass-card">
+          <div class="pass-id">
+            <small>CALLSIGN</small>
+            <strong id="operative-callsign">VORTEX // X-77</strong>
+          </div>
+          <div class="pass-rank">
+            <small>CLEARANCE</small>
+            <strong id="operative-rank">PHANTOM TIER</strong>
+          </div>
+          <div class="pass-code" id="operative-hash">#CX-9941</div>
+        </div>
+      </div>
+
+      <!-- Auto-Redirect Warp Bar -->
+      <div class="warp-progress-wrap" id="warp-progress-wrap">
+        <div class="warp-progress-labels">
+          <span id="warp-countdown-label">DIMENSIONAL SYNC COMPLETE — READY FOR LAUNCH</span>
+          <button class="cancel-auto-btn" id="copy-invite-btn" type="button">COPY INVITE LINK</button>
+        </div>
+        <div class="warp-progress-track">
+          <div class="warp-progress-fill" id="warp-progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="holo-actions">
+        <a href="https://discord.gg/cyberofx" target="_blank" rel="noopener noreferrer" class="launch-discord-btn" id="confirm-discord-launch">
+          <span>LAUNCH DISCORD PORTAL NOW</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <button class="stay-btn" id="stay-in-metaverse-btn" type="button">RETURN TO 3D STAGE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       HOLOGRAPHIC TRAILER / CYBER OVERDRIVE SHOWCASE MODAL
+       ===================================================================== -->
+  <div class="trailer-modal" id="trailer-modal" aria-hidden="true">
+    <div class="trailer-box">
+      <div class="trailer-header">
+        <span>// HOLO-TRANSMISSION: CYBER OF X — SEASON 01 CINEMATIC</span>
+        <button class="trailer-close" id="trailer-close-btn">✕</button>
+      </div>
+      <div class="trailer-screen" id="trailer-screen">
+        <canvas id="trailer-canvas"></canvas>
+        <div class="trailer-hud-overlay">
+          <div class="trailer-rec">● LIVE 3D REAL-TIME ENGINE DEMO</div>
+          <h3 class="trailer-headline" id="trailer-headline">NEURAL AWAKENING // 2077</h3>
+          <p class="trailer-sub" id="trailer-sub">Move your cursor to steer the 3D Cyber-Drone camera through the Neon Grid.</p>
+          <div class="trailer-controls">
+            <button class="cyber-btn discord-trigger" data-source="trailer-cta">
+              <span>JOIN DISCORD FOR EARLY BETA KEY</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
