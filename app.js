@@ -349,6 +349,19 @@ window.addEventListener('mousemove', (e) => {
   }
 });
 
+// Touch parallax support for tablets & smartphones
+window.addEventListener('touchmove', (e) => {
+  const touch = e.touches?.[0];
+  if (!touch) return;
+  mouse.targetX = (touch.clientX / window.innerWidth) * 2 - 1;
+  mouse.targetY = -(touch.clientY / window.innerHeight) * 2 + 1;
+}, { passive: true });
+
+function getBaseCameraZ() {
+  return window.innerWidth < 860 ? 17.5 : 14;
+}
+camera.position.z = getBaseCameraZ();
+
 // Linear interpolation helper for ultra-smooth 60fps damping
 function lerp(start, end, amt) {
   return (1 - amt) * start + amt * end;
@@ -451,6 +464,7 @@ animate();
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
+  camera.position.z = getBaseCameraZ();
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
@@ -746,7 +760,7 @@ function switchToSector(index) {
   // Camera zoom impulse
   camera.position.z = 9.5;
   setTimeout(() => {
-    camera.position.z = 14;
+    camera.position.z = getBaseCameraZ();
   }, 450);
 
   if (activePageNum) activePageNum.textContent = sec.num;
@@ -794,6 +808,7 @@ if (scrollIndicator) {
 
 let wheelLock = false;
 window.addEventListener('wheel', (e) => {
+  if (window.innerWidth <= 1180) return; // Allow normal vertical scroll on tablets & phones
   if (wheelLock || portalModalEl.classList.contains('active')) return;
   if (Math.abs(e.deltaY) > 25) {
     wheelLock = true;

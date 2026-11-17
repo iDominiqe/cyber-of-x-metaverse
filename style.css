@@ -1743,33 +1743,254 @@ body.pure-3d-mode .character-3d-card {
 }
 
 /* ==========================================================================
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN — DESKTOP, TABLET & MOBILE
    ========================================================================== */
+@media (hover: none), (pointer: coarse) {
+  html, body, a, button {
+    cursor: auto;
+  }
+  .cyber-cursor {
+    display: none !important;
+  }
+}
+
+/* Tablet Landscape & Small Laptops */
 @media (max-width: 1180px) {
+  html, body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100dvh;
+  }
+  .app-shell {
+    height: auto;
+    min-height: 100dvh;
+  }
+  .main-stage {
+    height: auto;
+    min-height: 100dvh;
+    padding: 16px 24px 24px;
+    gap: 14px;
+  }
+  .center-nav {
+    gap: 10px;
+  }
+  .nav-item {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
   .hero-mid-grid {
-    grid-template-columns: 260px 1fr 260px;
+    grid-template-columns: 245px 1fr 245px;
+    gap: 16px;
+  }
+  .character-3d-card {
+    width: min(440px, 46vw);
+    height: min(560px, 70vh);
   }
   .bottom-hud-bar {
     grid-template-columns: 1fr 1fr;
     gap: 18px;
+    padding: 18px 22px;
   }
-  .center-nav {
-    display: none;
+  .hud-action-end {
+    justify-self: end;
   }
 }
 
-@media (max-width: 820px) {
+/* Tablet Portrait & Mobile Phones */
+@media (max-width: 860px) {
+  html, body {
+    cursor: auto;
+  }
+  a, button {
+    cursor: pointer;
+  }
+  .cyber-cursor {
+    display: none !important;
+  }
+
   .app-shell {
-    grid-template-columns: 52px 1fr;
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100dvh;
   }
+
+  /* Convert Left Sidebar into a Sleek Bottom Cyber Social Dock */
+  .left-sidebar {
+    order: 2;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    border-right: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(10, 8, 16, 0.92);
+  }
+  .follow-us-wrap,
+  .sidebar-divider,
+  .scroll-indicator {
+    display: none;
+  }
+  .social-nav {
+    flex-direction: row;
+    gap: 10px;
+  }
+
   .main-stage {
-    padding: 14px 18px;
+    order: 1;
+    padding: 14px 16px 20px;
+    gap: 10px;
   }
+
+  .center-nav {
+    display: none;
+  }
+
+  .hero-top-meta {
+    padding-top: 4px;
+    gap: 12px;
+  }
+  .meta-left {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+  }
+  .meta-slogan {
+    display: none;
+  }
+
+  /* Flow Giant Title & 3D Character Cleanly on Mobile */
+  .giant-title-layer {
+    position: relative;
+    top: auto;
+    margin-top: 8px;
+  }
+  .metaverse-title {
+    font-size: clamp(44px, 14.5vw, 94px);
+  }
+
+  .center-character-stage {
+    position: relative;
+    inset: auto;
+    margin: -22px auto 6px;
+  }
+  .character-3d-card {
+    width: min(350px, 86vw);
+    height: min(410px, 50vh);
+  }
+  .character-aura,
+  .character-holo-ring {
+    width: 240px;
+    height: 240px;
+  }
+  .floating-hud-tag {
+    font-size: 9px;
+    padding: 4px 8px;
+  }
+  .tag-left {
+    top: 32%;
+    left: 2px;
+  }
+  .tag-right {
+    top: 20%;
+    right: 2px;
+  }
+
   .hero-mid-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 14px;
+    margin-bottom: 14px;
   }
   .center-spacer {
     display: none;
+  }
+  .info-column {
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(14, 12, 22, 0.68);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+  }
+  .column-title {
+    font-size: 18px;
+  }
+  .cyber-btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .bottom-hud-bar {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 18px;
+  }
+  .stat-subtext {
+    max-width: 100%;
+  }
+  .hud-action-end {
+    justify-self: center;
+  }
+
+  /* Modals on Mobile */
+  .warp-telemetry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 10px;
+  }
+  .discord-holo-card {
+    padding: 20px;
+    max-height: 82dvh;
+    overflow-y: auto;
+  }
+  .holo-server-name {
+    font-size: 16px;
+  }
+  .holo-metrics {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .pass-card {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .holo-actions {
+    flex-direction: column;
+  }
+  .trailer-screen {
+    height: 320px;
+    padding: 18px;
+  }
+  .trailer-headline {
+    font-size: 20px;
+  }
+}
+
+/* Compact Smartphones (<= 480px) */
+@media (max-width: 480px) {
+  .brand-name {
+    font-size: 12.5px;
+    letter-spacing: 0.1em;
+  }
+  .nav-actions {
+    gap: 8px;
+  }
+  #mode-switch-btn {
+    display: none;
+  }
+  .join-us-btn {
+    padding: 8px 14px;
+    font-size: 10px;
+    gap: 6px;
+  }
+  .sidebar-x-badge {
+    display: none;
+  }
+  .holo-header {
+    gap: 12px;
+  }
+  .holo-discord-emblem {
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
   }
 }
