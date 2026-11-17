@@ -254,7 +254,7 @@ a, button {
 .social-nav {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 12px;
   align-items: center;
 }
 
@@ -1608,6 +1608,138 @@ body.pure-3d-mode .character-3d-card {
   font-size: 14px;
   color: #b8b0cc;
   margin-bottom: 18px;
+}
+
+/* ==========================================================================
+   QUICK NEURAL COMMAND / SEARCH PALETTE & CYBER TOAST
+   ========================================================================== */
+.quick-search-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 11vh;
+  background: rgba(4, 3, 10, 0.78);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.quick-search-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.quick-search-box {
+  width: min(540px, 92vw);
+  background: rgba(14, 12, 24, 0.96);
+  border: 1px solid rgba(255, 30, 86, 0.45);
+  border-radius: 14px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 30, 86, 0.22);
+  overflow: hidden;
+}
+
+.quick-search-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.qs-prompt {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--neon-red);
+  white-space: nowrap;
+}
+
+#quick-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  cursor: text;
+}
+
+.qs-close {
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #b4aec6;
+}
+
+.quick-search-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 8px;
+  gap: 4px;
+}
+
+.qs-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #e4dff0;
+  text-align: left;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.qs-item small {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #8e879e;
+}
+
+.qs-item:hover {
+  background: rgba(255, 30, 86, 0.18);
+  color: #fff;
+  transform: translateX(3px);
+}
+
+.qs-item.qs-discord:hover {
+  background: rgba(88, 101, 242, 0.28);
+}
+
+.cyber-toast {
+  position: fixed;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 120;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: rgba(14, 12, 24, 0.94);
+  border: 1px solid var(--neon-red);
+  box-shadow: 0 0 24px rgba(255, 30, 86, 0.45);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.cyber-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 /* ==========================================================================

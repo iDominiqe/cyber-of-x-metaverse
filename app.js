@@ -5,7 +5,7 @@
  * Change DISCORD_INVITE_URL below to your own Discord server invite link!
  */
 const CONFIG = {
-  DISCORD_INVITE_URL: 'https://discord.gg/cyberofx',
+  DISCORD_INVITE_URL: 'https://discord.gg/f5wGW62Jsy',
   LERP_FACTOR: 0.065, // Lower = smoother inertia on 3D mouse parallax
   AUTO_LAUNCH_DELAY_MS: 4200 // Time before progress bar completes in portal
 };
@@ -679,42 +679,200 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-// EXPLORE NOW Button — Cycles through 3D Metaverse Sectors with Camera Impulse
+// EXPLORE NOW, Top Nav & Quick Command Palette — 3D Sector Switching
 const exploreBtn = document.getElementById('explore-btn');
 const activePageNum = document.getElementById('active-page-num');
+const cyberToast = document.getElementById('cyber-toast');
 const SECTORS = [
-  { num: '01', title: 'METAVERSE', leftH: 'CYBER OF X', rightH: 'THE FUTURE' },
-  { num: '02', title: 'SYNDICATE', leftH: 'NEURAL WARS', rightH: 'ZERO LATENCY' },
-  { num: '03', title: 'HYPERGRID', leftH: '3D ARENAS', rightH: 'CYBER LOOT' },
-  { num: '04', title: 'NEXUS HQ', leftH: 'DISCORD LINK', rightH: 'VOICE RAIDS' },
-  { num: '05', title: 'OVERDRIVE', leftH: 'CORE ENGINE', rightH: 'QUANTUM AI' }
+  {
+    num: '01',
+    title: 'METAVERSE',
+    leftH: 'CYBER OF X',
+    leftP: 'Step into a hyper-immersive neural metaverse rendered in real-time 3D. Forge your cybernetic identity, command next-gen syndicates, and link directly with our global Discord command nexus.',
+    rightH: 'THE FUTURE',
+    rightP: 'Powered by reactive WebGL shaders, spatial audio synthesis, and zero-latency community raids. Experience seamless 3D dimensional shifts every time you jump into the network.'
+  },
+  {
+    num: '02',
+    title: 'SYNDICATE',
+    leftH: 'NEURAL WARS',
+    leftP: 'Unite with elite cyber-operatives across encrypted sectors. Build your squad reputation, unlock rare holographic badges, and dominate seasonal territory events.',
+    rightH: 'ZERO LATENCY',
+    rightP: 'Real-time synchronized arenas and live voice squad coordination powered by our global Discord & Telegram relay nodes.'
+  },
+  {
+    num: '03',
+    title: 'HYPERGRID',
+    leftH: '3D ARENAS',
+    leftP: 'Enter custom-built WebGL combat districts and neon racing circuits. Every arena reacts dynamically to audio frequencies and player telemetry.',
+    rightH: 'CYBER LOOT',
+    rightP: 'Collect limited-edition visor skins, cybernetic cores, and animated profile artifacts earned through active community raids.'
+  },
+  {
+    num: '04',
+    title: 'NEXUS HQ',
+    leftH: 'MARKETPLACE',
+    leftP: 'Trade verified cybernetic gear, neural passes, and custom 3D avatars with fellow citizens inside the zero-fee Syndicate Exchange.',
+    rightH: 'LIVE DROPS',
+    rightP: 'Follow our YouTube, Instagram, and Telegram channels for instant drop alerts, creator showcases, and secret access codes.'
+  },
+  {
+    num: '05',
+    title: 'OVERDRIVE',
+    leftH: 'CORE ENGINE',
+    leftP: 'Need assistance with your neural link or server access? Our support operatives are online 24/7 inside the official Discord citadel.',
+    rightH: 'QUANTUM AI',
+    rightP: 'Switch between 3D Hybrid, Mecha Core, and Wireframe modes anytime, or press SPACE to ignite Cyber Overdrive.'
+  }
 ];
 let currentSector = 0;
 
-if (exploreBtn) {
-  exploreBtn.addEventListener('click', () => {
-    sfx.playWarpPortal();
-    currentSector = (currentSector + 1) % SECTORS.length;
-    const sec = SECTORS[currentSector];
+let toastTimeout = null;
+function showCyberToast(msg) {
+  if (!cyberToast) return;
+  cyberToast.textContent = msg;
+  cyberToast.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    cyberToast.classList.remove('show');
+  }, 2400);
+}
 
-    // Camera zoom impulse
-    camera.position.z = 9.5;
-    setTimeout(() => {
-      camera.position.z = 14;
-    }, 450);
+function switchToSector(index) {
+  sfx.playWarpPortal();
+  currentSector = ((index % SECTORS.length) + SECTORS.length) % SECTORS.length;
+  const sec = SECTORS[currentSector];
 
-    if (activePageNum) activePageNum.textContent = sec.num;
-    const titleEl = document.querySelector('.metaverse-title');
-    if (titleEl) {
-      titleEl.setAttribute('data-text', sec.title);
-      titleEl.textContent = sec.title;
-    }
-    const leftTitle = document.querySelector('#info-left .column-title');
-    const rightTitle = document.querySelector('#info-right .column-title');
-    if (leftTitle) leftTitle.textContent = sec.leftH;
-    if (rightTitle) rightTitle.textContent = sec.rightH;
+  // Camera zoom impulse
+  camera.position.z = 9.5;
+  setTimeout(() => {
+    camera.position.z = 14;
+  }, 450);
+
+  if (activePageNum) activePageNum.textContent = sec.num;
+  const titleEl = document.querySelector('.metaverse-title');
+  if (titleEl) {
+    titleEl.setAttribute('data-text', sec.title);
+    titleEl.textContent = sec.title;
+  }
+  const leftTitle = document.querySelector('#info-left .column-title');
+  const leftDesc = document.querySelector('#info-left .column-desc');
+  const rightTitle = document.querySelector('#info-right .column-title');
+  const rightDesc = document.querySelector('#info-right .column-desc');
+  if (leftTitle) leftTitle.textContent = sec.leftH;
+  if (leftDesc) leftDesc.textContent = sec.leftP;
+  if (rightTitle) rightTitle.textContent = sec.rightH;
+  if (rightDesc) rightDesc.textContent = sec.rightP;
+
+  // Sync top navbar active underline
+  document.querySelectorAll('.center-nav .nav-item[data-section]').forEach((item) => {
+    item.classList.toggle('active', item.dataset.section === sec.num);
   });
 }
+
+if (exploreBtn) {
+  exploreBtn.addEventListener('click', () => {
+    switchToSector(currentSector + 1);
+  });
+}
+
+// Top Nav Sector Buttons (HOME, ABOUT, GAMES, MARKETPLACE, SUPPORT)
+document.querySelectorAll('.center-nav .nav-item[data-section]').forEach((item) => {
+  item.addEventListener('click', (e) => {
+    e.preventDefault();
+    const idx = parseInt(item.dataset.section, 10) - 1;
+    if (!Number.isNaN(idx)) switchToSector(idx);
+  });
+});
+
+// Scroll indicator click + wheel navigation
+const scrollIndicator = document.querySelector('.scroll-indicator');
+if (scrollIndicator) {
+  scrollIndicator.style.cursor = 'pointer';
+  scrollIndicator.addEventListener('click', () => switchToSector(currentSector + 1));
+}
+
+let wheelLock = false;
+window.addEventListener('wheel', (e) => {
+  if (wheelLock || portalModalEl.classList.contains('active')) return;
+  if (Math.abs(e.deltaY) > 25) {
+    wheelLock = true;
+    switchToSector(currentSector + (e.deltaY > 0 ? 1 : -1));
+    setTimeout(() => { wheelLock = false; }, 650);
+  }
+}, { passive: true });
+
+// External Social Links (Facebook, Telegram, Instagram, YouTube) Feedback
+document.querySelectorAll('.social-external').forEach((link) => {
+  link.addEventListener('click', () => {
+    sfx.playWarpPortal();
+    const platform = link.dataset.platform || 'EXTERNAL';
+    showCyberToast(`TRANSMITTING TO ${platform} // OPENING LINK`);
+  });
+});
+
+// Quick Neural Command / Search Palette
+const searchBtn = document.getElementById('search-btn');
+const quickSearchModal = document.getElementById('quick-search-modal');
+const quickSearchInput = document.getElementById('quick-search-input');
+const quickSearchClose = document.getElementById('quick-search-close');
+
+function openQuickSearch() {
+  if (!quickSearchModal) return;
+  sfx.playClick();
+  quickSearchModal.classList.add('active');
+  quickSearchModal.setAttribute('aria-hidden', 'false');
+  if (quickSearchInput) {
+    quickSearchInput.value = '';
+    quickSearchInput.focus();
+  }
+  document.querySelectorAll('#quick-search-list .qs-item').forEach((el) => {
+    el.style.display = 'flex';
+  });
+}
+
+function closeQuickSearch() {
+  if (!quickSearchModal) return;
+  quickSearchModal.classList.remove('active');
+  quickSearchModal.setAttribute('aria-hidden', 'true');
+}
+
+if (searchBtn) searchBtn.addEventListener('click', openQuickSearch);
+if (quickSearchClose) quickSearchClose.addEventListener('click', closeQuickSearch);
+if (quickSearchModal) {
+  quickSearchModal.addEventListener('click', (e) => {
+    if (e.target === quickSearchModal) closeQuickSearch();
+  });
+}
+if (quickSearchInput) {
+  quickSearchInput.addEventListener('input', () => {
+    const q = quickSearchInput.value.trim().toLowerCase();
+    document.querySelectorAll('#quick-search-list .qs-item').forEach((el) => {
+      const text = el.textContent.toLowerCase();
+      el.style.display = text.includes(q) ? 'flex' : 'none';
+    });
+  });
+}
+
+document.querySelectorAll('#quick-search-list .qs-item').forEach((item) => {
+  item.addEventListener('click', () => {
+    const action = item.dataset.action;
+    closeQuickSearch();
+    if (action === 'sector') {
+      switchToSector(parseInt(item.dataset.index, 10) || 0);
+    } else if (action === 'discord') {
+      openDiscordPortal();
+    } else if (item.tagName === 'A') {
+      sfx.playWarpPortal();
+    }
+  });
+});
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeQuickSearch();
+  }
+});
 
 // WATCH TRAILER Modal & Real-time 3D Cyber-City / Waveform Canvas
 const watchTrailerBtn = document.getElementById('watch-trailer-btn');
